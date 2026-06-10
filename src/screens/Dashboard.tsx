@@ -36,6 +36,7 @@ const pet = bundle.parties.find((p) => p.role === 'petitioner');
         <h1 className="dash-title">Your Divorce Case</h1>
         <p className="dash-sub">
                           {pet?.first_name ? `Welcome back, ${pet.first_name}.` : 'Welcome back.'}
+            </p>
       </header>
 
       <section className="dash-status">
