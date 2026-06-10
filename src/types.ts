@@ -109,3 +109,78 @@ export interface CaseBundle {
   documents: CaseDocument[];
   support: SupportCalc | null;
 }
+
+
+// ---- Extended intake model for native document generation ----
+// Marriage facts used by the Petition and Marital Settlement Agreement.
+export interface MarriageFacts {
+  date_of_marriage: string;
+  place_of_marriage: string;
+  date_of_separation: string;
+  petitioner_resident_days: number; // MO 90-day residency requirement
+  wife_maiden_name: string | null;
+  restore_maiden_name: boolean;
+  is_pregnant: boolean;
+  grounds_irretrievable: boolean; // MO uses irretrievable breakdown
+}
+
+// A single line item on a party's Statement of Income & Expenses.
+export interface IncomeExpenseLine {
+  label: string;
+  monthly_amount: number;
+}
+
+// Each party files their OWN statement; two sets are filed.
+export interface IncomeExpenseStatement {
+  party_role: PartyRole;
+  employer: string;
+  occupation: string;
+  gross_monthly_income: number;
+  income_lines: IncomeExpenseLine[];
+  expense_lines: IncomeExpenseLine[];
+}
+
+// Each party files their OWN Statement of Property & Debts; shares Asset/Debt data.
+export interface PropertyDebtStatement {
+  party_role: PartyRole;
+  notes: string;
+}
+
+// Settlement terms that build the Marital Settlement Agreement,
+// correlated with the shared assets[] and debts[].
+export interface SettlementTerms {
+  maintenance_waived: boolean;
+  maintenance_monthly_amount: number; // 0 if waived
+  maintenance_paying_party: PartyRole | null;
+  attorney_fees_each_own: boolean;
+  additional_provisions: string;
+}
+
+// Parenting plan (Missouri CCFC179 Part A + CCFC181 Part B).
+export interface ParentingPlan {
+  legal_custody: 'joint' | 'sole_petitioner' | 'sole_respondent';
+  physical_custody: 'joint' | 'sole_petitioner' | 'sole_respondent';
+  residential_parent: PartyRole;
+  holiday_schedule: string;
+  exchange_location: string;
+  decision_making: string;
+}
+
+// Extended bundle that augments CaseBundle with native-document data.
+// Kept separate to avoid breaking existing CaseBundle consumers.
+export interface CaseBundleExt extends CaseBundle {
+  marriage: MarriageFacts;
+  income_statements: IncomeExpenseStatement[]; // one per party
+  property_statements: PropertyDebtStatement[]; // one per party
+  settlement: SettlementTerms;
+  parenting_plan: ParentingPlan | null;
+}
+
+// Identifies each native document we can render & fill live.
+export type NativeDocId =
+  | 'petition'
+  | 'income_expenses'
+  | 'property_debts'
+  | 'marital_settlement'
+  | 'parenting_plan_a'
+  | 'parenting_plan_b';
