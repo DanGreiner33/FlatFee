@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from './Layout';
-import { useCase } from '../App';
 
 type Answer = 'yes' | 'no' | null;
 
@@ -42,7 +41,6 @@ const QUESTIONS: Question[] = [
 
 export default function Qualify() {
   const navigate = useNavigate();
-  const { setQualified } = useCase();
   const [answers, setAnswers] = useState<Record<string, Answer>>({});
 
   const allAnswered = QUESTIONS.every((q) => answers[q.key]);
@@ -55,7 +53,7 @@ export default function Qualify() {
 
   function handleContinue() {
     if (!passes) return;
-    setQualified(true);
+  
     navigate('/result');
   }
 
