@@ -24,6 +24,8 @@ interface CaseState {
   attorneyApproved: boolean;
   setQualified: (v: boolean) => void;
   setAttorneyApproved: (v: boolean) => void;
+contactEmail: string;
+setContactEmail: (v: string) => void;
 }
 
 const CaseContext = createContext<CaseState | null>(null);
@@ -38,12 +40,12 @@ function CaseProvider({ children }: { children: ReactNode }) {
   const [bundle] = useState<CaseBundle>(demoCase);
   const [qualified, setQualified] = useState(false);
   const [attorneyApproved, setAttorneyApproved] = useState(false);
+const [contactEmail, setContactEmail] = useState('');
 
   const value = useMemo(
-    () => ({ bundle, qualified, attorneyApproved, setQualified, setAttorneyApproved }),
-    [bundle, qualified, attorneyApproved]
+    () => ({ bundle, qualified, attorneyApproved, setQualified, setAttorneyApproved, contactEmail, setContactEmail }),    [bundle, qualified, attorneyApproved]
+    [bundle, qualified, attorneyApproved, contactEmail]
   );
-
   return <CaseContext.Provider value={value}>{children}</CaseContext.Provider>;
 }
 
