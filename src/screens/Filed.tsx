@@ -1,8 +1,16 @@
-import { useApp } from "../App";
+import { useNavigate } from "react-router-dom";
+import { useCase } from "../App";
 
 export default function Filed() {
-  const { state, reset } = useApp();
-  const ref = state.filingRef || "FF-MO-PENDING";
+  const { bundle, setQualified, setAttorneyApproved } = useCase();
+  const navigate = useNavigate();
+  const ref = `FF-MO-${bundle.case.id.slice(0, 8).toUpperCase()}`;
+
+  function startNew() {
+    setQualified(false);
+    setAttorneyApproved(false);
+    navigate("/");
+  }
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
@@ -27,7 +35,7 @@ export default function Filed() {
             </div>
             <div className="flex justify-between">
               <dt className="text-slate-500">County</dt>
-              <dd className="font-medium text-slate-900">{state.county || "—"}</dd>
+              <dd className="font-medium text-slate-900">{bundle.case.county}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-slate-500">Status</dt>
@@ -52,7 +60,7 @@ export default function Filed() {
       </div>
 
       <button
-        onClick={reset}
+        onClick={startNew}
         className="mt-6 w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
       >
         Start a new matter
