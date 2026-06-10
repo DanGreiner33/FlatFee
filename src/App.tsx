@@ -43,8 +43,8 @@ function CaseProvider({ children }: { children: ReactNode }) {
 const [contactEmail, setContactEmail] = useState('');
 
   const value = useMemo(
-    () => ({ bundle, qualified, attorneyApproved, setQualified, setAttorneyApproved, contactEmail, setContactEmail }),    [bundle, qualified, attorneyApproved]
-    [bundle, qualified, attorneyApproved, contactEmail]
+      () => ({ bundle, qualified, attorneyApproved, setQualified, setAttorneyApproved, contactEmail, setContactEmail }),
+      [bundle, qualified, attorneyApproved, contactEmail]
   );
   return <CaseContext.Provider value={value}>{children}</CaseContext.Provider>;
 }
