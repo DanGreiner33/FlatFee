@@ -14,6 +14,8 @@ import Assembly from './screens/Assembly';
 import Review from './screens/Review';
 import SignPay from './screens/SignPay';
 import Filed from './screens/Filed';
+import Login from './screens/Login';
+import Dashboard from './screens/Dashboard';
 
 // ---- App state -----------------------------------------------------------
 interface CaseState {
@@ -66,6 +68,8 @@ export default function App() {
     <CaseProvider>
       <Routes>
         <Route path="/" element={<Landing />} />
+<Route path="/login" element={<Login />} />
+<Route path="/dashboard" element={<RequireQualified><Dashboard /></RequireQualified>} />
         <Route path="/estimate" element={<Estimator />} />
         <Route path="/qualify" element={<Qualify />} />
         <Route path="/result" element={<Result />} />
