@@ -18,6 +18,7 @@ interface Step {
 export default function Dashboard() {
   const nav = useNavigate();
   const { bundle, qualified, attorneyApproved } = useCase();
+const pet = bundle.parties.find((p) => p.role === 'petitioner');
 
   const steps: Step[] = [
     { key: 'qualify', label: 'Qualification', path: '/qualify', done: qualified, locked: false },
@@ -34,8 +35,7 @@ export default function Dashboard() {
       <header className="dash-header">
         <h1 className="dash-title">Your Divorce Case</h1>
         <p className="dash-sub">
-          {bundle.petitioner?.first_name ? `Welcome back, ${bundle.petitioner.first_name}.` : 'Welcome back.'}
-        </p>
+                          {pet?.first_name ? `Welcome back, ${pet.first_name}.` : 'Welcome back.'}
       </header>
 
       <section className="dash-status">
